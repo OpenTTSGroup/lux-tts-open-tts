@@ -1,0 +1,36 @@
+.git/
+.github/
+.gitignore
+.gitmodules
+
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+.idea/
+.vscode/
+.DS_Store
+
+cache/
+voices/
+tests/
+docs/
+scripts/
+
+*.md
+*.log
+
+# engine/ submodule: drop what the API does not need at runtime.
+# Keep engine/zipvoice/ (imported via PYTHONPATH).
+engine/.git*
+engine/.gitignore
+engine/LICENSE
+engine/README.md

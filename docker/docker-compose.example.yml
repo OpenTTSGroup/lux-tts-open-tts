@@ -1,0 +1,26 @@
+services:
+  lux-tts:
+    image: ghcr.io/seancheung/lux-tts-open-tts:latest
+    container_name: lux-tts-open-tts
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./voices:/voices:ro
+      - ./cache:/root/.cache
+    environment:
+      LUXTTS_MODEL: "YatharthS/LuxTTS"
+      LOG_LEVEL: "info"
+      # Uncomment to let browsers call the API from any origin:
+      # CORS_ENABLED: "true"
+      # Uncomment to fall back to CPU on a host without NVIDIA drivers:
+      # LUXTTS_DEVICE: "cpu"
+      # Uncomment to switch to 24 kHz smooth output (default is 48 kHz):
+      # LUXTTS_RETURN_SMOOTH: "true"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped

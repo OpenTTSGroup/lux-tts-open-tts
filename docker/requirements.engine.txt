@@ -1,0 +1,40 @@
+# LuxTTS (zipvoice) runtime dependencies.
+#
+# The engine itself lives in engine/ as a git submodule and is exposed via
+# PYTHONPATH (see docker/Dockerfile) — upstream uses build-backend=uv_build
+# which pip cannot consume, so we do NOT install the engine package and
+# instead list its runtime dependencies here.
+#
+# Source of truth: engine/requirements.txt (upstream). We omit `tensorboard`
+# (train-only) and keep everything else required at import / inference time.
+
+# piper_phonemize ships only on icefall's mirror; forward the find-links to pip.
+--find-links https://k2-fsa.github.io/icefall/piper_phonemize.html
+
+# Core ML stack (torch / torchaudio are installed separately in the Dockerfile).
+numpy
+lhotse
+huggingface_hub
+hf_transfer
+safetensors
+vocos
+pydub
+onnxruntime
+librosa
+transformers<=4.57.6
+
+# Custom vocoder — GitHub source, no PyPI release.
+git+https://github.com/ysharma3501/LinaCodec.git
+
+# Text frontends used by EmiliaTokenizer.
+cn2an
+inflect
+jieba
+piper_phonemize
+pypinyin
+
+# Whisper ASR is invoked inside process_audio() to transcribe the reference
+# audio. Upstream does not pin a version; take whatever has a wheel.
+openai-whisper
+
+setuptools<81
