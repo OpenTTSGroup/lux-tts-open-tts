@@ -5,8 +5,10 @@
 # which pip cannot consume, so we do NOT install the engine package and
 # instead list its runtime dependencies here.
 #
-# Source of truth: engine/requirements.txt (upstream). We omit `tensorboard`
-# (train-only) and keep everything else required at import / inference time.
+# Source of truth: engine/requirements.txt (upstream). Keep everything required
+# at import / inference time. Note: `tensorboard` is imported unconditionally by
+# zipvoice/utils/common.py via `from torch.utils.tensorboard import SummaryWriter`,
+# so it is required at runtime even though SummaryWriter is only used for training.
 
 # piper_phonemize ships only on icefall's mirror; forward the find-links to pip.
 --find-links https://k2-fsa.github.io/icefall/piper_phonemize.html
@@ -17,6 +19,7 @@ lhotse
 huggingface_hub
 hf_transfer
 safetensors
+tensorboard
 vocos
 pydub
 onnxruntime
